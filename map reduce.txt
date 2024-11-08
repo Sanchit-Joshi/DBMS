@@ -1,0 +1,59 @@
+use GroupB_prac2
+ switched to db GroupB_prac2
+ //calculating total marks using map reduce
+ db.Stud.insertMany([
+   { Rollno: 1, Name: 'Ram', Marks: 80, Branch: 'Computer' },
+   { Rollno: 2, Name: 'Ravi', Marks: 90, Branch: 'Computer' },
+   { Rollno: 3, Name: 'Rahul', Marks: 70, Branch: 'IT' },
+   { Rollno: 4, Name: 'Sachin', Marks: 60, Branch: 'IT' }
+ ])
+ {
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('670c05b97592a3bf7061f6b5'),
+    '1': ObjectId('670c05b97592a3bf7061f6b6'),
+    '2': ObjectId('670c05b97592a3bf7061f6b7'),
+    '3': ObjectId('670c05b97592a3bf7061f6b8')
+  }
+ }
+ db.Stud.mapReduce(
+   function() {
+      emit(this.Branch, this.Marks);  // Map: Emit Branch as key and Marks as value
+   },
+   function(key, values) {
+      return Array.sum(values);  // Reduce: Sum all Marks for the given Branch
+   },
+   {
+      query: { "Marks": { $gt: 60 } },  // Only include documents where Marks > 60
+      out: "Total_Marks"  // Output collection name
+   }
+ )
+ { result: 'Total_Marks', ok: 1 }
+ db.Total_Marks.find().pretty();
+ {
+  _id: 'IT',
+  value: 70
+ }
+ {
+  _id: 'Computer',
+  value: 170
+ }
+ //calculating average marks using map reduce
+ db.Stud.mapReduce(
+   function() {
+      emit(this.Branch, this.Marks);  // Map: Emit Branch as key and Marks as value
+   },
+   function(key, values) {
+      return Array.avg(values);  // Reduce: Average all Marks for the given Branch
+   },
+{
+ query: { "Marks": { $gt: 60 } },  // Only include documents where Marks > 60
+ out: "Avg_Marks"  // Output collection name
+ }
+ )
+ { result: 'Avg_Marks', ok: 1 }
+ db.Avg_Marks.find().pretty();
+ {
+ _id: 'IT',
+ value: 70
+ }

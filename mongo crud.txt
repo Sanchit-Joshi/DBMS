@@ -1,0 +1,125 @@
+db.createCollection.products
+ db.products.insertOne({name:"Apple",category:"fruit",price: 50, stock: 100})
+ 
+ db.products.insertMany([{name: "Banana", category: "Fruits", price: 20, stock: 
+150},{ name: "Carrot", category: "Vegetables", price: 30, stock: 200 },
+ 
+ db.products.find({
+  $or: [
+    { category: "Fruits" },  
+    { price: { $gt: 50 } }   
+  ]
+ })
+ 
+ db.products.find({ 
+  $and: [ 
+    { category: "Fruits" }, 
+    { price: { $gt: 30 } } 
+  ] 
+})
+db.products.updateOne(
+  { name: "Apple" },  // Filter
+  { $set: { price: 55 } }  // Update
+ )
+ 
+ db.products.updateMany(
+  { category: "Vegetables" },
+  { $inc: { stock: 50 } }  // Increment stock by 50
+ )
+ 
+ db.products.deleteOne({ name: "Banana" })
+
+ db.products.find({
+  category: { $not: { $eq: "Vegetables" } }
+ })
+ 
+ db.createCollection.products
+  stock: 100})
+
+ db.products.insertOne({name:"Apple",category:"fruit",price: 50,
+  stock: 100})
+
+ db.products.insertMany([{name: "Banana", category: "Fruits", price: 20, stock: 
+150},
+ { name: "Carrot", category: "Vegetables", price: 30, stock: 200 },
+ { name: "Tomato", category: "Fruit", price: 80, stock: 300 }])
+ {
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('670b515f336585d8c7c79040'),
+    '1': ObjectId('670b515f336585d8c7c79041'),
+    '2': ObjectId('670b515f336585d8c7c79042')
+  }
+ }
+ db.products.find({$and:[{ category: "Fruits" }, 
+    { price: { $gt: 30 } } ]})
+ db.products.find({
+  $or: [
+    { category: "Fruits" },  
+    { price: { $gt: 50 } }   
+  ]
+ })
+ {
+  _id: ObjectId('670b515f336585d8c7c79040'),
+  name: 'Banana',
+  category: 'Fruits',
+  price: 20,
+  stock: 150
+ }
+ {
+  _id: ObjectId('670b515f336585d8c7c79042'),
+  name: 'Tomato',
+  category: 'Fruit',
+  price: 80,
+  stock: 300
+ }
+ db.products.find({ 
+  $and: [ 
+    { category: "Fruits" }, 
+    { price: { $gt: 30 } } 
+  ] 
+})
+ db.products.updateOne(
+  { name: "Apple" },  // Filter
+  { $set: { price: 55 } }  // Update
+ )
+ {
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+ }
+ db.products.updateMany(
+  { category: "Vegetables" },
+  { $inc: { stock: 50 } }  // Increment stock by 50
+ )
+ {
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+ }
+ db.products.deleteOne({ name: "Banana" })
+ {
+  acknowledged: true,
+  deletedCount: 1
+ }
+ db.products.find({
+  category: { $not: { $eq: "Vegetables" } }
+ })
+ {
+  _id: ObjectId('670b5064336585d8c7c7903f'),
+  name: 'Apple',
+  category: 'fruit',
+  price: 55,
+  stock: 100
+ }
+ {
+  _id: ObjectId('670b515f336585d8c7c79042'),
+  name: 'Tomato',
+  category: 'Fruit',
+  price: 80,
+  stock: 300
+ }

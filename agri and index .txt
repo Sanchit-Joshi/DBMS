@@ -1,0 +1,64 @@
+use GroupB_prac2
+ switched to db GroupB_prac2
+ db.createCollection("sales")
+ { ok: 1 }
+ db.sales.insertMany([
+   {
+      "_id": 1,
+      "item": "laptop",
+      "quantity": 5,
+      "price": 1200,
+      "store": "Store A",
+      "date": "2024-06-15"
+   },
+   {
+      "_id": 2,
+      "item": "phone",
+      "quantity": 3,
+      "price": 800,
+      "store": "Store A",
+      "date": "2024-07-20"
+   },
+   {
+      "_id": 3,
+      "item": "tablet",
+      "quantity": 10,
+      "price": 600,
+      "store": "Store C",
+      "date": "2024-08-05"
+   }
+ ])
+ {
+  acknowledged: true,
+  insertedIds: {
+    '0': 1,
+    '1': 2,
+    '2': 3
+  }
+ }
+ db.sales.aggregate([
+   {
+      // Step 1: Filter documents based on the store and a date range using the 
+$match stage.
+      $match: { 
+         store: "Store A", 
+         date: { $gte: "2024-01-01", $lte: "2024-12-31" } 
+      }
+   },
+   {
+      // Step 2: Group the documents by store and calculate the total sales using 
+$group.
+      $group: {
+         _id: "$store",
+         totalSales: { $sum: { $multiply: ["$quantity", "$price"] } }
+      }
+   },
+   {
+      // Step 3: Sort the result by totalSales in descending order (optional).
+      $sort: { totalSales: -1 }
+   }
+ ])
+ {
+ _id: 'Store A',
+  totalSales: 8400
+ }

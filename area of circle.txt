@@ -1,0 +1,48 @@
+MySQL [(none)]> use  ;  
+Database changed  
+MySQL [ ]> create table tbl_area(radius int,area float);  
+Query OK, 0 rows affected (0.351 sec)  
+MySQL [ ]>  
+MySQL [ ]> delimiter //  
+MySQL [ ]>  
+MySQL [ ]> create procedure Find_Circle_Area()  -> BEGIN  -> declare r int;  -> declare a float;  ->  -> set r = 5;  ->  
+loop_label: LOOP  ->  ->  ->  ->  ->  ->  
+IF r > 9 THEN  
+LEAVE loop_label;  
+END IF;  
+set a = 3.14 * r * r;  
+insert into tbl_area(radius,area) values(r,a);  
+->   ->  ->  ->  ->  ->  ->  
+select a as Area;  
+set r = r + 1;  
+END LOOP;  -> END;  ->  -> //  
+Query OK, 0 rows affected (0.001 sec)  
+MySQL [ ]>  
+MySQL [ ]> delimiter ;  
+MySQL [ ]> call Find_Circle_Area();  
++------+ | 
+Area | +------+  
+| 78.5 |  
++------+  
+1 row in set (0.052 sec)  
++--------+  
+| Area | +--------+ | 
+113.04 |  
++--------+  
+1 row in set (0.094 sec)  
++--------+  
+| Area | +--------+ | 
+153.86 |  
++--------+  
+1 row in set (0.219 sec)  
++--------+  
+| Area | +--------+ | 
+200.96 |  
++--------+  
+1 row in set (0.261 sec)  
++--------+  
+| Area | +--------+ | 
+254.34 |  
++--------+  
+1 row in set (0.303 sec)  
+Query OK, 0 rows affected (0.303 sec) 

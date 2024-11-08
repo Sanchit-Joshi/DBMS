@@ -1,0 +1,31 @@
+mysql> CREATE DATABASE Library;   
+Query OK, 1 row affected (0.02 sec)   
+mysql> USE TEA25;  Database 
+changed   
+mysql> CREATE TABLE lib_book(bid INT, bname VARCHAR(20),qty INT);  Query 
+OK, 0 rows affected (0.02 sec)   
+mysql> INSERT INTO lib_book VALUES(1, "Secret", 10), (2,"Hating game",30),(3,"The  
+Alchemist" ,50) ,(4,"love hypothesis",45);   
+Query OK, 4 rows affected (0.01 sec) 
+Records: 4 Duplicates: 0 Warnings: 0 
+mysql> select * from lib_book;   
+
+mysql> SELECT * FROM lib_audit;   
+Empty set (0.00 sec)   
+mysql> drop trigger if exists Make_audit1;   
+Query OK, 0 rows affected, 1 warning (0.01 sec)   
+mysql> delimiter //   
+mysql> CREATE TRIGGER Make_audit1   ->  AFTER DELETE ON lib_book   ->  FOR EACH ROW   -> BEGIN   -> INSERT INTO lib_Audit (bid, bname, qty) VALUES (OLD.bid, OLD.bname,OLD.qty); > 
+END;   -> //   
+Query OK, 0 rows affected (0.02 sec) mysql>  
+delimiter ;   
+mysql> drop trigger if exists Make_audit2;   
+Query OK, 0 rows affected, 1 warning (0.01 sec)   
+mysql> delimiter //   
+mysql> CREATE TRIGGER Make_audit2 AFTER UPDATE ON lib_book FOR EACH ROW   -> BEGIN   -> INSERT INTO lib_Audit (bid, bname, qty) VALUES (OLD.bid, OLD.bname,OLD.qty); > 
+END;   -> //   
+Query OK, 0 rows affected (0.01 sec)   
+mysql> delimiter ;  mysql> update lib_book set qty=100 where 
+bname="Secret";  Query OK, 1 row affected (0.02 sec) Rows 
+matched: 1 Changed: 1 Warnings: 0   
+mysql> SELECT * FROM lib_book;   
